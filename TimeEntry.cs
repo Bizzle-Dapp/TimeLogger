@@ -22,6 +22,7 @@ namespace TimeLogger
         public TimeEntryTask TaskType { get; set; }
         public string TaskCode { get; set; }
         public double TimeSpent { get; set; }
+        public DateTime? Date { get; set; } = new DateTime();
         public string Notes { get; set; }
 
     }

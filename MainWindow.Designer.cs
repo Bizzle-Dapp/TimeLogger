@@ -69,6 +69,7 @@ namespace TimeLogger
             this.timeLoggerDataGridView.TabIndex = 1;
             this.timeLoggerDataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.TimeLoggerDataGridView_CellValueChanged);
             this.timeLoggerDataGridView.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.TimeLoggerDataGridView__CellValidated);
+            this.timeLoggerDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TimeLoggerDataGridView_CellClick);
             // 
             // headerPanel
             // 
@@ -84,7 +85,6 @@ namespace TimeLogger
             this.headerPanel.Name = "headerPanel";
             this.headerPanel.Size = new System.Drawing.Size(796, 35);
             this.headerPanel.TabIndex = 0;
-            this.headerPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HeaderPanel_MouseMove);
             // 
             // appTitle
             // 
@@ -97,6 +97,8 @@ namespace TimeLogger
             this.appTitle.TabIndex = 3;
             this.appTitle.Text = "Time Logger";
             this.appTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.appTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HeaderPanel_MouseMove);
+
             // 
             // pictureBox1
             // 

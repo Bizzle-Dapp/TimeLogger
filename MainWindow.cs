@@ -15,7 +15,7 @@ namespace TimeLogger
     public partial class MainWindow : Form
     {
         BindingList<TimeEntry> timeEntries = new BindingList<TimeEntry>();
-
+        DateTimePicker dtp;
         public MainWindow()
         {
             InitializeComponent();
@@ -83,11 +83,62 @@ namespace TimeLogger
             });
             timeLoggerDataGridView.Columns.Add(new DataGridViewTextBoxColumn()
             {
+                Name = "Date",
+                DataPropertyName = "Date",
+                HeaderText = "Date",
+                ValueType = typeof(DateTime)
+            });
+            timeLoggerDataGridView.Columns.Add(new DataGridViewTextBoxColumn()
+            {
                 Name = "Comment",
                 DataPropertyName = "Notes",
                 HeaderText = "Comment",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
             });
+        }
+
+        private void TimeLoggerDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == -1) return;
+            // determine if click was on our date column
+            if (timeLoggerDataGridView.Columns[e.ColumnIndex].DataPropertyName == "Date")
+            {
+                if (e.RowIndex == -1) return;
+                // initialize DateTimePicker
+                dtp = new DateTimePicker();
+                dtp.Format = DateTimePickerFormat.Short;
+                dtp.Visible = true;
+                try
+                {
+                    dtp.Value = DateTime.Parse(timeLoggerDataGridView.CurrentCell?.Value?.ToString());
+                }
+                catch
+                {
+                    dtp.Value = DateTime.Now;
+                }
+
+                // set size and location
+                var rect = timeLoggerDataGridView.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                dtp.Size = new Size(rect.Width, rect.Height);
+                dtp.Location = new Point(rect.X, rect.Y);
+
+                // attach events
+                dtp.CloseUp += new EventHandler(DateTimePicker_CloseUp);
+                dtp.TextChanged += new EventHandler(DateTimePicker_OnTextChange);
+
+                timeLoggerDataGridView.Controls.Add(dtp);
+            }
+        }
+
+        private void DateTimePicker_OnTextChange(object sender, EventArgs e)
+        {
+            timeLoggerDataGridView.CurrentCell.Value = dtp.Text.ToString();
+        }
+
+        // on close of cell, hide dtp
+        void DateTimePicker_CloseUp(object sender, EventArgs e)
+        {
+            dtp.Visible = false;
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
