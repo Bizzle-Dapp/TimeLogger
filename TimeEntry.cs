@@ -9,10 +9,11 @@ namespace TimeLogger
     public enum TimeEntryTask
     {
         Project,
+        Meeting,
         Holiday,
         Training,
         SystemIssue,
-        Meeting
+        Break
 
     };
 
