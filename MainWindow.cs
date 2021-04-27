@@ -99,10 +99,16 @@ namespace TimeLogger
 
         private void TimeLoggerDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == -1) { dtp.Dispose(); return; }
+            if (e.ColumnIndex == -1) { return; }
             // determine if click was on our date column
             if (timeLoggerDataGridView.Columns[e.ColumnIndex].DataPropertyName == "Date")
             {
+                // cleanup existing
+                if (dtp != null)
+                {
+                    dtp.Visible = false;
+                    dtp.Dispose();
+                }
                 if (e.RowIndex == -1) return;
                 // initialize DateTimePicker
                 dtp = new DateTimePicker();
@@ -130,9 +136,13 @@ namespace TimeLogger
             }
             else
             {
-                dtp.Visible = false;
-                dtp.Dispose(); 
-                return;
+                if(dtp != null)
+                {
+                    dtp.Visible = false;
+                    dtp.Dispose();
+                    return;
+                }
+                
             }
         }
 
