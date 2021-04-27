@@ -99,7 +99,7 @@ namespace TimeLogger
 
         private void TimeLoggerDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == -1) return;
+            if (e.ColumnIndex == -1) { dtp.Dispose(); return; }
             // determine if click was on our date column
             if (timeLoggerDataGridView.Columns[e.ColumnIndex].DataPropertyName == "Date")
             {
@@ -128,17 +128,26 @@ namespace TimeLogger
 
                 timeLoggerDataGridView.Controls.Add(dtp);
             }
+            else
+            {
+                dtp.Visible = false;
+                dtp.Dispose(); 
+                return;
+            }
         }
 
         private void DateTimePicker_OnTextChange(object sender, EventArgs e)
         {
             timeLoggerDataGridView.CurrentCell.Value = dtp.Text.ToString();
+            dtp.Visible = false;
+            dtp.Dispose();
         }
 
         // on close of cell, hide dtp
         void DateTimePicker_CloseUp(object sender, EventArgs e)
         {
             dtp.Visible = false;
+            dtp.Dispose();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
